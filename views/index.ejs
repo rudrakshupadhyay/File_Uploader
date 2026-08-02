@@ -9,32 +9,40 @@
   <body>
     <div class="homeContainer">
         <%- include("./portion/header") %>
-        <div class="workspace">
-            <% if(folderListSize == 0){ %>
+        <% if(folderListSize == 0){ %>
+            <div class="workspace">
                 <div class="noFolder">
-                    <div class="noFolderMessage">Your drive is empty</div>
+                    <div class="noFolderMessage">
+                        <div>Your drive is empty</div>
+                        <div>Create your first folder to start organizing your files.</div>
+                    </div>
                     <a href="/createfolder" class="create-folder-btn">Create Folder</a>
                 </div>
-            <% } else { %>
-                <div class="folderFileContainer">
-                    <div class="folderList">
-                        <% folderList.forEach((folder) => { %>
-                            <div class="folder">
-                                <a href="/folder/<%= folder.id %>"><%= folder.name %></a>
-                            </div>
-                        <% }) %>
-                    </div>
-                    <div class="fileList">
-                        <a href="/createfolder">Create Folder</a>
-                        <% fileList.forEach((file) => { %>
-                            <div class="file">
-                                <a href="/file/<%= file.id %>"><%= file.name %></a>
-                            </div>
-                        <% }) %>
-                    </div>
+            </div>
+        <% } else { %>
+            <div class="folderList">
+                <div>
+                    <a href="/createfolder" class="create-folder-btn">Create Folder</a>
                 </div>
-            <% } %>
-        </div>
+                <ul class="listOfFolder">
+                    <% folderList.forEach((folder) => { %>
+                        <li class="folder">
+                            <div class="folderName"><%= folder.name %></div>
+                            <div class="folderDetails">
+                                <div>Number of files: <%= folder.files.length %> |</div>
+                                <div>Created At: <%= folder.createdAt.toLocaleString() %> |</div>
+                                <a href="/folder/<%= folder.id %>" class="openfolder">Open folder</a>
+                                <a href="/renamefolder/<%= folder.id %>" class="renameFolderBtn">Rename</a>
+                                <form action="/deletefolder/<%= folder.id %>?_method=DELETE" method="POST" class="deleteFolderForm">
+                                    <button type="submit" class="deleteFolderBtn">Delete</button>
+                                </form>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
+            </div>
+        <% } %>
+
     </div>
   </body>
 </html>

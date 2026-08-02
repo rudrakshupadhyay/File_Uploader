@@ -47,7 +47,18 @@ a {
   align-items: center;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #bdbdbe;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(37, 99, 235, 0.08),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(250, 204, 21, 0.08),
+      transparent 35%
+    ),
+    #f8fafc;
   justify-content: flex-start;
   gap: 100px;
 }
@@ -55,13 +66,14 @@ a {
 h1 {
   font-size: 3rem;
   font-weight: 700;
-  color: #1e3a8a;
+  color: #79828f;
   letter-spacing: 0.5px;
   margin-bottom: 2rem;
 }
 
 .page {
   background-color: #ffffff;
+  border: 2px solid #79828f;
   padding: 30px;
   border-radius: 10px;
 }
@@ -70,9 +82,12 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  color: #334155;
 }
 
+label {
+  color: #64748b;
+  font-weight: 700;
+}
 .mainform > div {
   display: flex;
   flex-direction: column;
@@ -107,6 +122,6 @@ textarea {
   align-items: center;
 }
 
-.errorMessage{
-    color: red;
+.errorMessage {
+  color: red;
 }

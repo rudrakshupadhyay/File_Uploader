@@ -8,6 +8,7 @@ import { prisma } from "./lib/prisma.js";
 import indexRouter from "./routes/indexRoutes.js";
 import { ls, ds, ensureAuthenticated } from "./config/passport.js";
 import { putDetailsInDb } from "./controllers/signUpControllers.js";
+import methodOverride from "method-override";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(express.json());
 const assetPath = path.join(import.meta.dirname, "public");
 app.use(express.static(assetPath));
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 app.use(
   session({
     store: new PrismaSessionStore(prisma, {

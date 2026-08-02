@@ -38,12 +38,32 @@ export async function insertFolderIntoDb(data) {
   return folder;
 }
 
-export async function getAllFolderFromDb() {
-  const folderList = await prisma.folder.findMany({});
-  return folderList;
+export async function findFolderById(folderId) {
+  const folder = await prisma.folder.findUnique({
+    where: {
+      id: parseInt(folderId),
+    },
+  });
+  return folder;
 }
 
-export async function getAllFileFromDb() {
-  const fileList = await prisma.file.findMany({});
-  return fileList;
+export async function updateFolderInDb(folderId, newName) {
+  const updatedFolder = await prisma.folder.update({
+    where: {
+      id: parseInt(folderId),
+    },
+    data: {
+      name: newName,
+    },
+  });
+  return updatedFolder;
+}
+
+export async function deleteFolderById(folderId) {
+  const deletedFolder = await prisma.folder.delete({
+    where: {
+      id: parseInt(folderId),
+    },
+  });
+  return deletedFolder;
 }

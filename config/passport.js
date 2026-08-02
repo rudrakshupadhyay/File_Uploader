@@ -8,6 +8,10 @@ export const ls = new LocalStrategy(async (username, password, done) => {
       where: {
         username,
       },
+      include: {
+        folders: true,
+        files: true,
+      },
     });
     if (!user) {
       return done(null, false, { message: "Incorrect username" });
@@ -27,6 +31,13 @@ export async function ds(id, done) {
     const user = await prisma.user.findUnique({
       where: {
         id,
+      },
+      include: {
+        folders: {
+          include: {
+            files: true, // files inside each folder
+          },
+        },
       },
     });
 
