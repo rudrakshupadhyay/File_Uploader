@@ -9,7 +9,12 @@
   <body>
     <div class="container">
       <div class="top">
-        <h1>DriveBox Login</h1>
+        <h1>DriveBox LogIn</h1>
+        <ul>
+          <% if (messages && messages.length > 0) { %>
+              <l><%= messages[0] %></l>
+          <% } %>
+        </ul>
       </div>
       <div class="page">
         <form action="/login" method="POST" class="mainform">

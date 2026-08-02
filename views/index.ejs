@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="homePageStyle.css">
+    <title>Home Page</title>
+  </head>
+  <body>
+    <div class="homeContainer">
+        <%- include("./portion/header") %>
+        <div class="workspace">
+            <% if(folderListSize == 0){ %>
+                <div class="noFolder">
+                    <div class="noFolderMessage">Your drive is empty</div>
+                    <a href="/createfolder" class="create-folder-btn">Create Folder</a>
+                </div>
+            <% } else { %>
+                <div class="folderFileContainer">
+                    <div class="folderList">
+                        <% folderList.forEach((folder) => { %>
+                            <div class="folder">
+                                <a href="/folder/<%= folder.id %>"><%= folder.name %></a>
+                            </div>
+                        <% }) %>
+                    </div>
+                    <div class="fileList">
+                        <a href="/createfolder">Create Folder</a>
+                        <% fileList.forEach((file) => { %>
+                            <div class="file">
+                                <a href="/file/<%= file.id %>"><%= file.name %></a>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+  </body>
+</html>

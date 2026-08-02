@@ -72,6 +72,19 @@ app.post(
 
 app.use("/", ensureAuthenticated, indexRouter);
 
+app.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+
+    req.session.destroy((err) => {
+      if (err) return next(err);
+      
+      res.clearCookie("connect.sid");
+      res.redirect("/login");
+    });
+  });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

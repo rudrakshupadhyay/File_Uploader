@@ -1,8 +1,7 @@
 import { Router } from "express";
+import { homePage } from "../controllers/indexControllers.js";
 const router = Router();
 
-router.get("/", (req, res) => {
-  res.send("Hello, you motherfucker");
-});
+router.get("/", homePage);
 
 export default router;

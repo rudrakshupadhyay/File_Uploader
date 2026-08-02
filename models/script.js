@@ -26,3 +26,24 @@ export async function uniqueUsername(username) {
   }
   return true;
 }
+
+export async function insertFolderIntoDb(data) {
+  const { name, user_id } = data;
+  const folder = await prisma.folder.create({
+    data: {
+      name,
+      user_id,
+    },
+  });
+  return folder;
+}
+
+export async function getAllFolderFromDb() {
+  const folderList = await prisma.folder.findMany({});
+  return folderList;
+}
+
+export async function getAllFileFromDb() {
+  const fileList = await prisma.file.findMany({});
+  return fileList;
+}
