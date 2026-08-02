@@ -1,0 +1,112 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  line-height: 1.5;
+  font-family: sans-serif;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+ul,
+ol {
+  padding-left: 1.5rem;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #bdbdbe;
+  justify-content: flex-start;
+  gap: 100px;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  letter-spacing: 0.5px;
+  margin-bottom: 2rem;
+}
+
+.page {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.mainform {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #334155;
+}
+
+.mainform > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.mainform > button {
+  background-color: #2563eb;
+  border: none;
+  border-radius: 10px;
+  color: #ffffff;
+}
+
+.signup-link {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+.signup-link:hover {
+  text-decoration: underline;
+}
+
+input,
+textarea {
+  border: 1px solid #cbd5e1;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.errorMessage{
+    color: red;
+}

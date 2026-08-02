@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="signupStyle.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="top">
+        <h1>DriveBox SignUp</h1>
+        <%- include("./portion/errors") %>
+      </div>
+      <div class="page">
+        <form action="/signup" method="POST" class="mainform">
+          <div>
+            <label for="username">Username</label>
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter the username"
+              id="username"
+              required
+              value="<%= data ? data.username : '' %>"
+            />
+          </div>
+          <div>
+            <label for="firstname">First Name</label>
+            <input
+              id="firstname"
+              name="firstname"
+              placeholder="Enter First Name"
+              type="text"
+              value="<%= data ? data.firstname : '' %>"
+              required
+            />
+          </div>
+          <div>
+            <label for="lastname">Last Name</label>
+            <input
+              id="lastname"
+              name="lastname"
+              placeholder="Enter Last Name"
+              value="<%= data ? data.lastname : '' %>"
+              type="text"
+            />
+          </div>
+          <div>
+            <label for="password">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              placeholder="Enter Password"
+            />
+          </div>
+          <button type="submit">Sign Up</button>
+        </form>
+        <a href="/login" class="signup-link">Log In</a>
+      </div>
+    </div>
+  </body>
+</html>
