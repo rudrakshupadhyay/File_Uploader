@@ -43,6 +43,9 @@ export async function findFolderById(folderId) {
     where: {
       id: parseInt(folderId),
     },
+    include: {
+      files: true,
+    },
   });
   return folder;
 }
@@ -66,4 +69,32 @@ export async function deleteFolderById(folderId) {
     },
   });
   return deletedFolder;
+}
+
+export async function insertFileLocalIntoDb(data) {
+  const {
+    original_name,
+    stored_name,
+    file_type,
+    file_path,
+    size,
+    createdAt,
+    updatedAt,
+    folder_id,
+    user_id,
+  } = data;
+  const file = await prisma.file.create({
+    data: {
+      original_name,
+      stored_name,
+      file_type,
+      file_path,
+      size,
+      createdAt,
+      updatedAt,
+      folder_id: parseInt(folder_id),
+      user_id: parseInt(user_id),
+    },
+  });
+  return file;
 }

@@ -1,9 +1,13 @@
 import { Router } from "express";
+import {
+  uploadFile,
+  uploadFileController,
+  openFolderController
+} from "../controllers/fileControllers.js";
 
 const router = Router();
 
-router.get("/:id", (req, res) => {
-  res.render("filesPage", { fileListSize: 0, user: req.user });
-});
+router.get("/:id", openFolderController);
 
+router.post("/:id/upload", uploadFile, uploadFileController);
 export default router;

@@ -103,6 +103,7 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   /* background: linear-gradient(180deg, #f8fafc 0%, #eff6ff 100%); */
   background:
     radial-gradient(
@@ -172,4 +173,10 @@ a {
   color: #64748b;
 
   cursor: pointer;
+}
+
+.errorMessage {
+  color: #ef4444;
+  font-weight: 700;
+  font-size: large;
 }

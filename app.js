@@ -80,11 +80,20 @@ app.get("/logout", (req, res, next) => {
 
     req.session.destroy((err) => {
       if (err) return next(err);
-      
+
       res.clearCookie("connect.sid");
       res.redirect("/login");
     });
   });
+});
+
+app.use((err, req, res, next) => {
+    console.error(err.message);
+
+    res.status(500).json({
+        success: false,
+        message: err.message
+    });
 });
 
 const PORT = process.env.PORT || 3000;

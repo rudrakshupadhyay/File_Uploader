@@ -37,18 +37,27 @@ model Folder {
 }
 
 model File {
-  id            String   @id @default(uuid())
+  id String @id @default(uuid())
+
   original_name String
-  stored_name   String   @unique
-  file_type     String
-  file_path     String
-  size          Int
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  folder        Folder   @relation(fields: [folder_id], references: [id], onDelete: Cascade)
-  folder_id     Int
-  user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  user_id       Int
+  stored_name   String?
+
+  file_type String
+  size      Int
+
+  file_path String?
+
+  cloud_url String?
+  public_id String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  folder    Folder @relation(fields: [folder_id], references: [id], onDelete: Cascade)
+  folder_id Int
+
+  user    User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id Int
 
   @@index([user_id])
   @@index([folder_id])
