@@ -42,9 +42,11 @@ model File {
   original_name String
   stored_name   String?
 
-  file_type String
-  size      Int
+  mime_type     String      // application/pdf, image/jpeg, text/plain
+  resource_type String?      // image, raw, video
+  format        String?      // pdf, jpg, png, docx
 
+  size      Int
   file_path String?
 
   cloud_url String?

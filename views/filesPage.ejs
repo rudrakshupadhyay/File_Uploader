@@ -48,7 +48,7 @@
                             <div class="fileName"><%= file.original_name %></div>
                             <div class="fileDetails">
                                 <div>Size: <%= (file.size / 1024).toFixed(2) %> KB |</div>
-                                <div>Type: <%= file.file_type %> |</div>
+                                <div>Type: <%= file.format || "docx" %> |</div>
                                 <div>Uploaded At: <%= file.createdAt.toLocaleString() %> |</div>
                                 <a href="/folder/<%= folderId %>/view/<%= file.id %>" class="viewFileBtn">View</a>
                                 <a href="/folder/<%= folderId %>/download/<%= file.id %>" class="downloadFileBtn">Download</a>
