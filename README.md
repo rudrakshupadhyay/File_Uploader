@@ -200,26 +200,6 @@ npm run server
 
 ---
 
-# Screenshots
-
-## Login
-
-(Add screenshot)
-
-## Dashboard
-
-(Add screenshot)
-
-## Folder
-
-(Add screenshot)
-
-## Upload Files
-
-(Add screenshot)
-
----
-
 # Future Improvements
 
 - Folder sharing
