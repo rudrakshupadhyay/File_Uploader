@@ -6,7 +6,6 @@ import {
 } from "../models/script.js";
 
 export async function homePage(req, res) {
-  console.log(req.user);
   const folderList = req.user.folders;
   res.render("index", {
     user: req.user,

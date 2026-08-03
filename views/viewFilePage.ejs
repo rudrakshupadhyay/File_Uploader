@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/viewFilePageStyle.css" />
+    <title>View File</title>
+  </head>
+  <body>
+    <div class="viewFileContainer">
+      <%- include("./portion/header") %>
+      <div class="fileDetailsContainer">
+        <div class="fileContent">
+          <h2 class="file-title">File Details</h2>
+          <p><b>File Name:</b> <%= file.original_name %></p>
+          <p><b>Size:</b> <%= (file.size / 1024).toFixed(2) %> KB</p>
+          <p><b>Type:</b> <%= file.file_type %></p>
+          <p><b>Uploaded At:</b> <%= file.createdAt.toLocaleString() %></p>
+          <div class="file-actions">
+            <a href="/folder/<%= folderId %>" class="backBtn">Back</a>
+            <a
+              href="/folder/<%= folderId %>/download/<%= file.id %>"
+              class="downloadFileBtn"
+              >Download</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

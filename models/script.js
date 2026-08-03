@@ -98,3 +98,21 @@ export async function insertFileLocalIntoDb(data) {
   });
   return file;
 }
+
+export async function deleteFileById(fileId) {
+  const deletedFile = await prisma.file.delete({
+    where: {
+      id: fileId,
+    },
+  });
+  return deletedFile;
+}
+
+export async function findFileById(fileId) {
+  const file = await prisma.file.findUnique({
+    where: {
+      id: fileId,
+    },
+  });
+  return file;
+}
