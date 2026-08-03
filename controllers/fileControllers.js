@@ -16,8 +16,6 @@ export function uploadFile(req, res, next) {
   upload.single("file")(req, res, (err) => {
     if (err) {
       const errors = err.message;
-      console.log(errors);
-      console.log(Array.isArray(errors));
       return res.status(400).render("filesPage", {
         folderId: req.params.id,
         fileListSize: 0,
@@ -76,7 +74,7 @@ export async function uploadFileController(req, res) {
       `DriveBox`,
     );
 
-    await insertFileIntoDb({
+    const fileData = await insertFileIntoDb({
       original_name,
       size: cloudinaryResult.bytes,
       createdAt: new Date(),
@@ -134,7 +132,6 @@ export async function downloadFileController(req, res) {
       file.resource_type,
       file.format,
     );
-    console.log("Download URL:", downloadUrl);
     res.redirect(downloadUrl);
   } catch (error) {
     console.error(error);
