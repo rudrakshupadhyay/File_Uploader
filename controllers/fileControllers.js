@@ -12,15 +12,17 @@ import {
   getCloudinaryDownloadUrl,
 } from "../utils/cloudinary.js";
 
-export function uploadFile(req, res, next) {
+export async function uploadFile(req, res, next) {
+  const folder = await findFolderById(req.params.id);
   upload.single("file")(req, res, (err) => {
     if (err) {
       const errors = err.message;
       return res.status(400).render("filesPage", {
         folderId: req.params.id,
-        fileListSize: 0,
+        fileListSize: folder.files.length,
         user: req.user,
         errors,
+        fileList: folder.files,
       });
     }
 
@@ -51,8 +53,9 @@ export async function openFolderController(req, res) {
 }
 
 export async function uploadFileController(req, res) {
+  let folder;
   try {
-    const folder = await findFolderById(req.params.id);
+    folder = await findFolderById(req.params.id);
 
     if (!folder) {
       return res.status(404).send("Folder not found");
@@ -74,11 +77,9 @@ export async function uploadFileController(req, res) {
       `DriveBox`,
     );
 
-    const fileData = await insertFileIntoDb({
+    await insertFileIntoDb({
       original_name,
       size: cloudinaryResult.bytes,
-      createdAt: new Date(),
-      updatedAt: new Date(),
       folder_id: folder.id,
       user_id: req.user.id,
       cloud_url: cloudinaryResult.secure_url,
@@ -92,8 +93,8 @@ export async function uploadFileController(req, res) {
     console.error("Upload failed:", error);
     return res.status(500).render("filesPage", {
       folderId: req.params.id,
-      fileList: [],
-      fileListSize: 0,
+      fileList: folder?.files ?? [],
+      fileListSize: folder?.files?.length ?? 0,
       user: req.user,
       errors: "Error uploading file.",
     });
@@ -107,9 +108,13 @@ export async function deleteFileController(req, res) {
     if (!file) {
       return res.status(404).send("File not found");
     }
-    const path = file.file_path;
-    await deleteFromCloudinary(file.public_id, file.resource_type);
     await deleteFileById(fileId);
+
+    try {
+      await deleteFromCloudinary(file.public_id, file.resource_type);
+    } catch (err) {
+      console.error("Cloudinary deletion failed:", err);
+    }
     res.redirect(`/folder/${file.folder_id}`);
   } catch (error) {
     console.error(error);
