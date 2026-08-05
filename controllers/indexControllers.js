@@ -17,16 +17,27 @@ export async function homePage(req, res) {
 export async function addFolder(req, res) {
   const name = req.body.name;
   const user_id = req.user.id;
-  const data = { name, user_id };
-  await insertFolderIntoDb(data);
-  res.redirect("/");
+
+  // ✅ ADD THIS TRY/CATCH
+  try {
+    await insertFolderIntoDb({ name, user_id });
+    res.redirect("/");
+  } catch (error) {
+    if (error.code === "P2002") {
+      // Prisma unique constraint error
+      return res.status(400).send("A folder with this name already exists.");
+    }
+    console.error(error);
+    res.status(500).send("Internal server error.");
+  }
 }
 
 export async function renameFolder(req, res) {
   const folderId = req.params.id;
   const folder = await findFolderById(folderId);
-  if (!folder) {
-    return res.status(404).send("Folder not found");
+
+  if (!folder || folder.user_id !== req.user.id) {
+    return res.status(403).send("Forbidden: You do not own this folder.");
   }
   res.render("createFolder", { isEditing: true, folder });
 }
@@ -34,12 +45,30 @@ export async function renameFolder(req, res) {
 export async function updateFolder(req, res) {
   const folderId = req.params.id;
   const newName = req.body.name;
-  const updatedFolder = await updateFolderInDb(folderId, newName);
-  res.redirect("/");
+  const folder = await findFolderById(folderId);
+  
+  if (!folder || folder.user_id !== req.user.id) {
+    return res.status(403).send("Forbidden: You do not own this folder.");
+  }
+
+  try {
+    await updateFolderInDb(folderId, newName);
+    res.redirect("/");
+  } catch (error) {
+    if (error.code === "P2002") {
+      return res.status(400).send("A folder with this name already exists.");
+    }
+    console.error(error);
+    res.status(500).send("Internal server error.");
+  }
 }
 
 export async function deleteFolder(req, res) {
   const folderId = req.params.id;
+  const folder = await findFolderById(folderId);
+  if (!folder || folder.user_id !== req.user.id) {
+    return res.status(403).send("Forbidden: You do not own this folder.");
+  }
   await deleteFolderById(folderId);
   res.redirect("/");
 }

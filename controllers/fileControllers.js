@@ -14,6 +14,10 @@ import {
 
 export async function uploadFile(req, res, next) {
   const folder = await findFolderById(req.params.id);
+  if(!folder || folder.user_id !== req.user.id) {
+    return res.status(403).send("Forbidden: You do not own this folder.");
+  }
+  req.folder = folder; // Attach the folder to the request object for later use
   upload.single("file")(req, res, (err) => {
     if (err) {
       const errors = err.message;
@@ -33,6 +37,9 @@ export async function uploadFile(req, res, next) {
 export async function openFolderController(req, res) {
   try {
     const folder = await findFolderById(req.params.id);
+    if (!folder || folder.user_id !== req.user.id) {
+      return res.status(403).send("Forbidden: You do not own this folder.");
+    }
     res.render("filesPage", {
       fileList: folder.files,
       errors: null,
@@ -55,7 +62,7 @@ export async function openFolderController(req, res) {
 export async function uploadFileController(req, res) {
   let folder;
   try {
-    folder = await findFolderById(req.params.id);
+    folder = req.folder; // Retrieve the folder from the request object
 
     if (!folder) {
       return res.status(404).send("Folder not found");
@@ -108,6 +115,9 @@ export async function deleteFileController(req, res) {
     if (!file) {
       return res.status(404).send("File not found");
     }
+    if (file.user_id !== req.user.id) {
+      return res.status(403).send("Forbidden: You do not own this file.");
+    }
     await deleteFileById(fileId);
 
     try {
@@ -132,6 +142,12 @@ export async function downloadFileController(req, res) {
   try {
     const { fileId } = req.params;
     const file = await findFileById(fileId);
+    if (!file) {
+      return res.status(404).send("File not found");
+    }
+    if (file.user_id !== req.user.id) {
+      return res.status(403).send("Forbidden: You do not own this file.");
+    }
     const downloadUrl = getCloudinaryDownloadUrl(
       file.public_id,
       file.resource_type,
@@ -156,6 +172,9 @@ export async function viewFileController(req, res) {
     const file = await findFileById(fileId);
     if (!file) {
       return res.status(404).send("File not found");
+    }
+    if (file.user_id !== req.user.id) {
+      return res.status(403).send("Forbidden: You do not own this file.");
     }
     res.render("viewFilePage", {
       file,

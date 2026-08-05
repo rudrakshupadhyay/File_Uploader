@@ -57,7 +57,7 @@ app.post("/signup", putDetailsInDb);
 
 app.get("/login", (req, res) => {
   const messages = req.session.messages;
-  console.log(messages);
+  
   delete req.session.messages;
 
   res.render("login", { messages });
@@ -88,14 +88,11 @@ app.get("/logout", (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    console.error(err.message);
-
-    res.status(500).json({
-        success: false,
-        message: err.message
-    });
+  console.error(err.message);
+  res.status(500).render("errorPage", {
+    message: "Something went wrong. Please try again later.",
+  });
 });
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
